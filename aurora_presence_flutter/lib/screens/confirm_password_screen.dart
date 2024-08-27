@@ -8,6 +8,11 @@ class ConfirmPasswordScreen extends StatefulWidget {
 }
 
 class _ConfirmPasswordScreenState extends State<ConfirmPasswordScreen> {
+  bool isClicked = false;
+  bool isHovering = false;
+  bool obscureTextNewPassword = true;
+  bool obscureTextConfirmPassword = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +23,7 @@ class _ConfirmPasswordScreenState extends State<ConfirmPasswordScreen> {
             left: 0,
             right: 0,
             child: Image.asset(
-              'images/bg3.jpg', // Sesuaikan dengan gambar background Anda
+              'images/bg3.jpg',
               fit: BoxFit.cover,
               height: 300,
             ),
@@ -30,9 +35,9 @@ class _ConfirmPasswordScreenState extends State<ConfirmPasswordScreen> {
             bottom: 0,
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              decoration: BoxDecoration(
-                color: const Color(0xFFF5F2F2),
-                borderRadius: const BorderRadius.only(
+              decoration: const BoxDecoration(
+                color: Color(0xFFF5F2F2),
+                borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(20.0),
                   topRight: Radius.circular(20.0),
                 ),
@@ -41,7 +46,7 @@ class _ConfirmPasswordScreenState extends State<ConfirmPasswordScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const SizedBox(height: 40),
-                  Text(
+                  const Text(
                     'Confirm New Password',
                     style: TextStyle(
                       fontFamily: 'Poppins',
@@ -51,7 +56,7 @@ class _ConfirmPasswordScreenState extends State<ConfirmPasswordScreen> {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  Text(
+                  const Text(
                     'Enter your email to receive an email to reset your password',
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -67,15 +72,28 @@ class _ConfirmPasswordScreenState extends State<ConfirmPasswordScreen> {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(15.0),
                     ),
-                    child: const TextField(
-                      obscureText: true,
+                    child: TextField(
+                      obscureText: obscureTextNewPassword,
                       decoration: InputDecoration(
-                        prefixIcon: Icon(
+                        prefixIcon: const Icon(
                           Icons.lock_open,
                           color: Colors.grey,
                         ),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            obscureTextNewPassword
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: Colors.grey,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              obscureTextNewPassword = !obscureTextNewPassword;
+                            });
+                          },
+                        ),
                         hintText: 'Masukkan New Password Anda',
-                        hintStyle: TextStyle(
+                        hintStyle: const TextStyle(
                           color: Colors.grey,
                           fontFamily: 'Poppins',
                         ),
@@ -90,15 +108,29 @@ class _ConfirmPasswordScreenState extends State<ConfirmPasswordScreen> {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(15.0),
                     ),
-                    child: const TextField(
-                      obscureText: true,
+                    child: TextField(
+                      obscureText: obscureTextConfirmPassword,
                       decoration: InputDecoration(
-                        prefixIcon: Icon(
+                        prefixIcon: const Icon(
                           Icons.lock_outline,
                           color: Colors.grey,
                         ),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            obscureTextConfirmPassword
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: Colors.grey,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              obscureTextConfirmPassword =
+                                  !obscureTextConfirmPassword;
+                            });
+                          },
+                        ),
                         hintText: 'Confirm password Anda',
-                        hintStyle: TextStyle(
+                        hintStyle: const TextStyle(
                           color: Colors.grey,
                           fontFamily: 'Poppins',
                         ),
@@ -107,21 +139,64 @@ class _ConfirmPasswordScreenState extends State<ConfirmPasswordScreen> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(vertical: 15),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF0546FF),
-                      borderRadius: BorderRadius.circular(15.0),
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Send',
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          fontSize: 18,
+                  GestureDetector(
+                    onTapDown: (_) {
+                      setState(() {
+                        isClicked = true;
+                      });
+                    },
+                    onTapUp: (_) {
+                      setState(() {
+                        isClicked = false;
+                        isHovering = false;
+                      });
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ConfirmPasswordScreen(),
+                        ),
+                      );
+                    },
+                    child: MouseRegion(
+                      onEnter: (_) {
+                        setState(() {
+                          isHovering = true;
+                        });
+                      },
+                      onExit: (_) {
+                        setState(() {
+                          isHovering = false;
+                        });
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(vertical: 15.0),
+                        decoration: BoxDecoration(
+                          color: isClicked
+                              ? const Color(0xFF00CEE8)
+                              : (isHovering
+                                  ? Colors.white
+                                  : const Color(0xFF0546FF)),
+                          borderRadius: BorderRadius.circular(15.0),
+                          border: Border.all(
+                            color: isClicked
+                                ? Colors.white
+                                : const Color(0xFF0546FF),
+                            width: 2.0,
+                          ),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Send',
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.bold,
+                              color: isHovering
+                                  ? const Color(0xFF0546FF)
+                                  : Colors.white,
+                              fontSize: 18,
+                            ),
+                          ),
                         ),
                       ),
                     ),
