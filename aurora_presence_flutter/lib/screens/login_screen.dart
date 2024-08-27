@@ -202,24 +202,65 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20),
+const SizedBox(height: 20),
                   GestureDetector(
-                    onTap: _login, 
-                    child: Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.symmetric(vertical: 15),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF0546FF),
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Login',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                            fontSize: 18,
+                    onTapDown: (_) {
+                      setState(() {
+                        isClicked = true;
+                      });
+                    },
+                    onTapUp: (_) {
+                      setState(() {
+                        isClicked = false;
+                        isHovering = false;
+                      });
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => HomeScreen(),
+                        ),
+                      );
+                    },
+                    child: MouseRegion(
+                      onEnter: (_) {
+                        setState(() {
+                          isHovering = true;
+                        });
+                      },
+                      onExit: (_) {
+                        setState(() {
+                          isHovering = false;
+                        });
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 15.0, horizontal: 100.0),
+                        decoration: BoxDecoration(
+                          color: isClicked
+                              ? const Color(0xFF00CEE8)
+                              : (isHovering
+                                  ? Colors.white
+                                  : const Color(0xFF0546FF)),
+                          borderRadius: BorderRadius.circular(15.0),
+                          border: Border.all(
+                            color: isClicked
+                                ? Colors.white
+                                : const Color(0xFF0546FF),
+                            width: 2.0,
+                          ),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Login',
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.bold,
+                              color: isHovering
+                                  ? const Color(0xFF0546FF)
+                                  : Colors.white,
+                              fontSize: 18,
+                            ),
                           ),
                         ),
                       ),
