@@ -215,18 +215,22 @@ class _ActivityScreenState extends State<ActivityScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  IconButton(
-                    icon: Icon(Icons.arrow_circle_left_outlined),
-                    onPressed: () => _onMonthChanged(false),
-                  ),
-                  Text(
-                    DateFormat('MMMM yyyy').format(currentMonth),
-                    style: TextStyle(fontFamily: 'Poppins', fontSize: 16),
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.arrow_circle_right_outlined),
-                    onPressed: () => _onMonthChanged(true),
-                  ),
+                IconButton(
+                icon: Icon(
+                Icons.arrow_circle_left_outlined,
+                color: Colors.lightBlue, // Warna light blue untuk ikon
+                ),
+                onPressed: () => _onMonthChanged(false),
+                ),
+
+              IconButton(
+              icon: Icon(
+              Icons.arrow_circle_right_outlined,
+              color: Colors.lightBlue, // Warna light blue untuk ikon
+             ),
+            onPressed: () => _onMonthChanged(true),
+            ),
+
                 ],
               ),
             ),
