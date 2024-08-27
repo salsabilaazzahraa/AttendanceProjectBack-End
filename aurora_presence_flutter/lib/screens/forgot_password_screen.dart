@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'confirm_password_screen.dart'; // Tambahkan ini
+import 'confirm_password_screen.dart';
 import 'login_screen.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
@@ -11,6 +11,8 @@ class ForgotPasswordScreen extends StatefulWidget {
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   Color loginTextColor = Colors.black;
+  bool isHovering = false; // Untuk melacak status hover
+  bool isClicked = false; // Untuk melacak status klik
 
   @override
   Widget build(BuildContext context) {
@@ -34,9 +36,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             bottom: 0,
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              decoration: BoxDecoration(
-                color: const Color(0xFFF5F2F2),
-                borderRadius: const BorderRadius.only(
+              decoration: const BoxDecoration(
+                color: Color(0xFFF5F2F2),
+                borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(20.0),
                   topRight: Radius.circular(20.0),
                 ),
@@ -87,7 +89,16 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   ),
                   const SizedBox(height: 20),
                   GestureDetector(
-                    onTap: () {
+                    onTapDown: (_) {
+                      setState(() {
+                        isClicked = true;
+                      });
+                    },
+                    onTapUp: (_) {
+                      setState(() {
+                        isClicked = false;
+                        isHovering = false;
+                      });
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -95,21 +106,45 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         ),
                       );
                     },
-                    child: Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.symmetric(vertical: 15),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF0546FF),
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Send',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                            fontSize: 18,
+                    child: MouseRegion(
+                      onEnter: (_) {
+                        setState(() {
+                          isHovering = true;
+                        });
+                      },
+                      onExit: (_) {
+                        setState(() {
+                          isHovering = false;
+                        });
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(vertical: 15.0),
+                        decoration: BoxDecoration(
+                          color: isClicked
+                              ? const Color(0xFF00CEE8)
+                              : (isHovering
+                                  ? Colors.white
+                                  : const Color(0xFF0546FF)),
+                          borderRadius: BorderRadius.circular(15.0),
+                          border: Border.all(
+                            color: isClicked
+                                ? Colors.white
+                                : const Color(0xFF0546FF),
+                            width: 2.0,
+                          ),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Send',
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.bold,
+                              color: isHovering
+                                  ? const Color(0xFF0546FF)
+                                  : Colors.white,
+                              fontSize: 18,
+                            ),
                           ),
                         ),
                       ),
