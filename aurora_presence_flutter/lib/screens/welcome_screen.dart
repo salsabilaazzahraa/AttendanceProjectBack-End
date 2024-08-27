@@ -2,13 +2,21 @@ import 'package:flutter/material.dart';
 import 'login_screen.dart';
 import 'register_screen.dart';
 
-class WelcomeScreen extends StatelessWidget {
+class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
+
+  @override
+  _WelcomeScreenState createState() => _WelcomeScreenState();
+}
+
+class _WelcomeScreenState extends State<WelcomeScreen> {
+  bool isLoginHovering = false;
+  bool isCreateAccountHovering = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0546FF), // Blue metallic
+      backgroundColor: const Color(0xFF0546FF),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -40,60 +48,89 @@ class WelcomeScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-            // Tombol Login
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const LoginScreen()),
-                );
+            MouseRegion(
+              onEnter: (_) {
+                setState(() {
+                  isLoginHovering = true;
+                });
               },
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                    vertical: 15.0, horizontal: 100.0),
-                decoration: BoxDecoration(
-                  color: const Color(0xFF0546FF),
-                  borderRadius: BorderRadius.circular(50.0),
-                  border: Border.all(color: Colors.white, width: 2.0),
-                ),
-                child: const Text(
-                  "Login",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+              onExit: (_) {
+                setState(() {
+                  isLoginHovering = false;
+                });
+              },
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const LoginScreen()),
+                  );
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 15.0, horizontal: 100.0),
+                  decoration: BoxDecoration(
+                    color: isLoginHovering ? Colors.white : const Color(0xFF0546FF),
+                    borderRadius: BorderRadius.circular(50.0),
+                    border: Border.all(color: Colors.white, width: 2.0),
+                  ),
+                  child: Text(
+                    "Login",
+                    style: TextStyle(
+                      color: isLoginHovering ? const Color(0xFF0546FF) : Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
             ),
-            const SizedBox(height: 15), // Berikan jarak
-            // Tombol Create Account
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const RegisterScreen()),
-                );
+            const SizedBox(height: 15),
+            MouseRegion(
+              onEnter: (_) {
+                setState(() {
+                  isCreateAccountHovering = true;
+                });
               },
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                    vertical: 15.0, horizontal: 60.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(50.0),
-                ),
-                child: const Text(
-                  "Create Account",
-                  style: TextStyle(
-                    color: Color(0xFF0546FF),
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+              onExit: (_) {
+                setState(() {
+                  isCreateAccountHovering = false;
+                });
+              },
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const RegisterScreen()),
+                  );
+                },
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 200),
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 15.0, horizontal: 60.0),
+                  decoration: BoxDecoration(
+                    color: isCreateAccountHovering ? const Color(0xFF0546FF) : Colors.white,
+                    borderRadius: BorderRadius.circular(
+                        isCreateAccountHovering ? 50.0 : 30.0),
+                    border: Border.all(
+                      color: isCreateAccountHovering ? Colors.white : const Color(0xFF0546FF),
+                      width: 2.0,
+                    ),
+                  ),
+                  child: Text(
+                    "Create Account",
+                    style: TextStyle(
+                      color: isCreateAccountHovering ? Colors.white : const Color(0xFF0546FF),
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
             ),
-            const SizedBox(height: 30), // Berikan jarak
+            const SizedBox(height: 30),
             const Text(
               "Login with Social Media",
               style: TextStyle(
@@ -101,15 +138,14 @@ class WelcomeScreen extends StatelessWidget {
                 fontSize: 16,
               ),
             ),
-            const SizedBox(height: 20), // Berikan jarak
-            // Baris dengan tiga ikon media sosial
+            const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 _buildSocialIcon('images/instagram.png'),
-                const SizedBox(width: 20), // Berikan jarak
+                const SizedBox(width: 20),
                 _buildSocialIcon('images/twitter.png'),
-                const SizedBox(width: 20), // Berikan jarak
+                const SizedBox(width: 20),
                 _buildSocialIcon('images/facebook.png'),
               ],
             ),
@@ -130,7 +166,7 @@ class WelcomeScreen extends StatelessWidget {
         imagePath,
         height: 30.0,
         width: 30.0,
-        color: const Color(0xFF0546FF), // Warna biru untuk ikon
+        color: const Color(0xFF0546FF),
       ),
     );
   }
