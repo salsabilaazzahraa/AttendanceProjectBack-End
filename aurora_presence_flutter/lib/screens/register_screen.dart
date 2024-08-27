@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
+
+  @override
+  _RegisterScreenState createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
+  bool isClicked = false;
+  bool isHovering = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
-          // Background Image
           Positioned(
             top: 0,
             left: 0,
@@ -19,7 +26,6 @@ class RegisterScreen extends StatelessWidget {
               height: 300,
             ),
           ),
-          // Main Content Container
           Positioned(
             top: 250,
             left: 0,
@@ -27,9 +33,9 @@ class RegisterScreen extends StatelessWidget {
             bottom: 0,
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              decoration: BoxDecoration(
-                color: const Color(0xFFF5F2F2),
-                borderRadius: const BorderRadius.only(
+              decoration: const BoxDecoration(
+                color: Color(0xFFF5F2F2),
+                borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(20.0),
                   topRight: Radius.circular(20.0),
                 ),
@@ -39,7 +45,7 @@ class RegisterScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const SizedBox(height: 60),
-                    Text(
+                    const Text(
                       'Create Account',
                       style: TextStyle(
                         fontFamily: 'Poppins',
@@ -49,7 +55,7 @@ class RegisterScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    Text(
+                    const Text(
                       'Welcome! Register your account to get started with Aurora Presence App',
                       style: TextStyle(
                         fontFamily: 'Poppins',
@@ -59,7 +65,6 @@ class RegisterScreen extends StatelessWidget {
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 20),
-                    // Input Email
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       decoration: BoxDecoration(
@@ -82,7 +87,6 @@ class RegisterScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    // Input Username
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       decoration: BoxDecoration(
@@ -105,7 +109,6 @@ class RegisterScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    // Input Password
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       decoration: BoxDecoration(
@@ -133,7 +136,6 @@ class RegisterScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    // Confirm Password
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       decoration: BoxDecoration(
@@ -161,26 +163,60 @@ class RegisterScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    // Register Button
                     GestureDetector(
-                      onTap: () {
-                        // Handle Register button tap
+                      onTapDown: (_) {
+                        setState(() {
+                          isClicked = true;
+                        });
                       },
-                      child: Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.symmetric(vertical: 15),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFF0546FF),
-                          borderRadius: BorderRadius.circular(15.0),
-                        ),
-                        child: Center(
-                          child: Text(
-                            'Register',
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                              fontSize: 18,
+                      onTapUp: (_) {
+                        setState(() {
+                          isClicked = false;
+                          isHovering = false;
+                        });
+                      },
+                      child: MouseRegion(
+                        onEnter: (_) {
+                          setState(() {
+                            isHovering = true;
+                          });
+                        },
+                        onExit: (_) {
+                          setState(() {
+                            isHovering = false;
+                          });
+                        },
+                        child: Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 15.0,
+                            horizontal: 100.0,
+                          ),
+                          decoration: BoxDecoration(
+                            color: isClicked
+                                ? const Color(0xFF00CEE8)
+                                : (isHovering
+                                    ? Colors.white
+                                    : const Color(0xFF0546FF)),
+                            borderRadius: BorderRadius.circular(15.0),
+                            border: Border.all(
+                              color: isClicked
+                                  ? Colors.white
+                                  : const Color(0xFF0546FF),
+                              width: 2.0,
+                            ),
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Register',
+                              style: TextStyle(
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.bold,
+                                color: isHovering
+                                    ? const Color(0xFF0546FF)
+                                    : Colors.white,
+                                fontSize: 18,
+                              ),
                             ),
                           ),
                         ),
