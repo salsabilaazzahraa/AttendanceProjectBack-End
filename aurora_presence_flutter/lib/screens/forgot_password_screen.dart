@@ -11,8 +11,8 @@ class ForgotPasswordScreen extends StatefulWidget {
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   Color loginTextColor = Colors.black;
-  bool isHovering = false; // Untuk melacak status hover
-  bool isClicked = false; // Untuk melacak status klik
+  bool isHovering = false;
+  bool isClicked = false;
 
   @override
   Widget build(BuildContext context) {
