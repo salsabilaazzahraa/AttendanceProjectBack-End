@@ -74,7 +74,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Container(
             height: 250,
             decoration: BoxDecoration(
-              color: Color(0xFF00CEE8),
+              color: Colors.lightBlue,
             ),
           ),
           Positioned(
